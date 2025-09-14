@@ -1,0 +1,36 @@
+using UnityEngine;
+
+public class PlayerAirState : PlayerState
+{
+    public PlayerAirState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    {
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+    }
+
+    public override void Update()
+    {
+        base.Update();
+
+        if (player.IsGroundDetected())
+        {
+            player.SetVelocity(0, player.rb.linearVelocity.y);
+            stateMachine.ChangeState(player.idleState);
+        }
+
+        if (player.IsWallDetected())
+            stateMachine.ChangeState(player.wallSlideState);
+
+        if (xInput != 0)
+            player.SetVelocity(xInput * .8f * player.moveSpeed, player.rb.linearVelocity.y);
+
+    }
+}
